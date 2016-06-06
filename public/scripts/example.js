@@ -22,11 +22,14 @@ class CommentBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {data: []};
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+    this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
   }
 
   loadCommentsFromServer() {
+    var that = this;
     $.ajax({
-      url: this.props.url,
+      url: that.props.url,
       dataType: 'json',
       cache: false,
       success: function(data) {
@@ -46,8 +49,9 @@ class CommentBox extends React.Component {
     comment.id = Date.now();
     var newComments = comments.concat([comment]);
     this.setState({data: newComments});
+    var that = this;
     $.ajax({
-      url: this.props.url,
+      url: that.props.url,
       dataType: 'json',
       type: 'POST',
       data: comment,
@@ -60,8 +64,6 @@ class CommentBox extends React.Component {
       }.bind(this)
     });
   }
-
-
 
   componentDidMount() {
     this.loadCommentsFromServer();
@@ -77,8 +79,7 @@ class CommentBox extends React.Component {
       </div>
     );
   }
-}
-
+};
 
 class CommentList extends React.Component {
   render() {
@@ -89,21 +90,22 @@ class CommentList extends React.Component {
         </Comment>
       );
     });
-
     return (
       <div className="commentList">
         {commentNodes}
       </div>
     );
   }
-}
-
-
+};
 
 class CommentForm extends React.Component {
+
   constructor(props) {
-    super(props)
-    this.state = {author: '', text: ''}
+    super(props);
+    this.state = {author: '', text: ''};
+    this.handleAuthorChange = this.handleAuthorChange.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleAuthorChange(e) {

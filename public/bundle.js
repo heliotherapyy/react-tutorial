@@ -98,14 +98,17 @@
 	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentBox).call(this, props));
 
 	    _this2.state = { data: [] };
+	    _this2.handleCommentSubmit = _this2.handleCommentSubmit.bind(_this2);
+	    _this2.loadCommentsFromServer = _this2.loadCommentsFromServer.bind(_this2);
 	    return _this2;
 	  }
 
 	  _createClass(CommentBox, [{
 	    key: "loadCommentsFromServer",
 	    value: function loadCommentsFromServer() {
+	      var that = this;
 	      $.ajax({
-	        url: this.props.url,
+	        url: that.props.url,
 	        dataType: 'json',
 	        cache: false,
 	        success: function (data) {
@@ -126,8 +129,9 @@
 	      comment.id = Date.now();
 	      var newComments = comments.concat([comment]);
 	      this.setState({ data: newComments });
+	      var that = this;
 	      $.ajax({
-	        url: this.props.url,
+	        url: that.props.url,
 	        dataType: 'json',
 	        type: 'POST',
 	        data: comment,
@@ -166,6 +170,8 @@
 	  return CommentBox;
 	}(React.Component);
 
+	;
+
 	var CommentList = function (_React$Component3) {
 	  _inherits(CommentList, _React$Component3);
 
@@ -185,7 +191,6 @@
 	          comment.text
 	        );
 	      });
-
 	      return React.createElement(
 	        "div",
 	        { className: "commentList" },
@@ -197,6 +202,8 @@
 	  return CommentList;
 	}(React.Component);
 
+	;
+
 	var CommentForm = function (_React$Component4) {
 	  _inherits(CommentForm, _React$Component4);
 
@@ -206,6 +213,9 @@
 	    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(CommentForm).call(this, props));
 
 	    _this4.state = { author: '', text: '' };
+	    _this4.handleAuthorChange = _this4.handleAuthorChange.bind(_this4);
+	    _this4.handleTextChange = _this4.handleTextChange.bind(_this4);
+	    _this4.handleSubmit = _this4.handleSubmit.bind(_this4);
 	    return _this4;
 	  }
 
